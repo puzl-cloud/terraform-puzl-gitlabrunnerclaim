@@ -37,9 +37,9 @@ resource "gitlab_group" "main_group" {
 
 # Create a GitLab Group
 resource "gitlab_group" "example_group" {
-  name          = local.gitlab.groups.main.example.name
-  path          = local.gitlab.groups.main.example.name
-  description   = local.gitlab.groups.main.example.description
+  name          = local.gitlab.groups.example.name
+  path          = local.gitlab.groups.example.name
+  description   = local.gitlab.groups.example.description
   parent_id     = gitlab_group.main_group.id
 }
 
@@ -74,7 +74,7 @@ module "integration" {
 
   name       = local.puzl.integration_name
   namespace  = local.puzl.root_namespace
-  gitlab_url = local.gitlab.gitlab_url
+  gitlab_url = local.gitlab.url
 }
 
 # Set up GitLab Group Access Token with Puzl modules
