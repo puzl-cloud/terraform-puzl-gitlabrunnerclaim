@@ -9,18 +9,26 @@ locals {
   project_claim_name   = "gitlab-project-runner"
 }
 
+# Create a main GitLab Group
+resource "gitlab_group" "main_group" {
+  name        = "main"
+  path        = "main"
+  description = "main group"
+}
+
 # Create a GitLab Group
 resource "gitlab_group" "example_group" {
-  name        = "example-group"
-  path        = "example-group"
-  description = "An example group"
+  name          = "example-group"
+  path          = "example-group"
+  description   = "An example group"
+  parent_id     = gitlab_group.main_group.id
 }
 
 # Create a GitLab Project within the Group
 resource "gitlab_project" "example_project" {
   name                   = "example-project"
   description            = "An example project"
-  namespace_id           = gitlab_group.example_group.id
+  namespace_id           = gitlab_group.main_group.id
 }
 
 # Create a Group Access Token
