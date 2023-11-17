@@ -1,33 +1,52 @@
-# Define Local Variables
+# Gitlab variables
 locals {
-  gitlab_url           = "https://gitlab.com"
-  integration_name     = "main"
-  root_namespace       = "root-cysexkwsk57xtlabdkyn3zpybzslt2l7frtwj5arfodtz"
-  group_token_name     = "gitlab-group-token"
-  project_token_name   = "gitlab-project-token"
-  group_claim_name     = "gitlab-group-runner"
-  project_claim_name   = "gitlab-project-runner"
+  gitlab = {
+    url = "https://gitlab.com"
+    token = {
+      expires_at = "2024-10-31"
+      scopes = ["create_runner"]
+    }
+    groups = {
+      main = {
+        name = "main"
+        description = "main group"
+      },
+      example = {
+        name = "example-group"
+        description = "example group"
+      }
+    },
+    projects = {
+      example = {
+        name = "example-project"
+        description = "example project"
+      }
+    }
+  }
+  puzl = {
+    integration_name   = "main"
+    root_namespace     = "root-cysexkwsk57xtlabdkyn3zpybzslt2l7frtwj5arfodtz"
+  }
 }
-
 # Create a main GitLab Group
 resource "gitlab_group" "main_group" {
-  name        = "main"
-  path        = "main"
-  description = "main group"
+  name        = local.gitlab.groups.main.name
+  path        = local.gitlab.groups.main.name
+  description = local.gitlab.groups.main.description
 }
 
 # Create a GitLab Group
 resource "gitlab_group" "example_group" {
-  name          = "example-group"
-  path          = "example-group"
-  description   = "An example group"
+  name          = local.gitlab.groups.main.example.name
+  path          = local.gitlab.groups.main.example.name
+  description   = local.gitlab.groups.main.example.description
   parent_id     = gitlab_group.main_group.id
 }
 
 # Create a GitLab Project within the Group
 resource "gitlab_project" "example_project" {
-  name                   = "example-project"
-  description            = "An example project"
+  name                   = local.gitlab.projects.example.name
+  description            = local.gitlab.projects.example.description
   namespace_id           = gitlab_group.main_group.id
 }
 
@@ -35,34 +54,34 @@ resource "gitlab_project" "example_project" {
 resource "gitlab_group_access_token" "example_group_token" {
   group        = gitlab_group.example_group.id
   name         = "Group access token for create runner on https://gitlab-pipelines.puzl.cloud"
-  expires_at   = "2024-12-31"
+  expires_at   = local.gitlab.token.expires_at
   access_level = "owner"
-  scopes       = ["create_runner"]
+  scopes       = local.gitlab.token.scopes
 }
 
 # Create a Project Access Token
 resource "gitlab_project_access_token" "example_project_token" {
   project      = gitlab_project.example_project.id
   name         = "Project access token for create runner on https://gitlab-pipelines.puzl.cloud"
-  expires_at   = "2024-12-31"
+  expires_at   = local.gitlab.token.expires_at
   access_level = "maintainer"
-  scopes       = ["create_runner"]
+  scopes       = local.gitlab.token.scopes
 }
 
 # Set up GitLab Pipelines Integration with Puzl modules
 module "integration" {
   source     = "puzl-cloud/gitlabpipelinesintegration/puzl"
 
-  name       = local.integration_name
-  namespace  = local.root_namespace
-  gitlab_url = local.gitlab_url
+  name       = local.puzl.integration_name
+  namespace  = local.puzl.root_namespace
+  gitlab_url = local.gitlab.gitlab_url
 }
 
 # Set up GitLab Group Access Token with Puzl modules
 module "gitlab_group_access_token" {
   source               = "puzl-cloud/gitlabaccesstoken/puzl"
 
-  name                 = gitlab_group_access_token.example_group_token.name
+  name                 = "${gitlab_group.example_group.name}-token"
   namespace            = module.integration.claim_namespace_ref
   gitlab_access_token  = gitlab_group_access_token.example_group_token.token
   token_type           = "puzl.cloud/gitlab-group-access-token"
@@ -72,7 +91,7 @@ module "gitlab_group_access_token" {
 module "gitlab_project_access_token" {
   source               = "puzl-cloud/gitlabaccesstoken/puzl"
 
-  name                 = gitlab_project_access_token.example_project_token.name
+  name                 = "${gitlab_project.example_project.name}-token"
   namespace            = module.integration.claim_namespace_ref
   gitlab_access_token  = gitlab_project_access_token.example_project_token.token
   token_type           = "puzl.cloud/gitlab-project-access-token"
@@ -82,7 +101,7 @@ module "gitlab_project_access_token" {
 module "gitlab_runner_claim_group" {
   source = "puzl-cloud/gitlabrunnerclaim/puzl"
 
-  name = local.group_claim_name
+  name = "${gitlab_group.example_group.name}-runner"
   namespace = module.integration.claim_namespace_ref
   gitlab_runner_claim = {
     gitlab = {
@@ -100,7 +119,7 @@ module "gitlab_runner_claim_group" {
 module "gitlab_runner_claim_project" {
   source = "puzl-cloud/gitlabrunnerclaim/puzl"
   
-  name = local.project_claim_name
+  name = "${gitlab_project.example_project.name}-runner"
   namespace = module.integration.claim_namespace_ref
   gitlab_runner_claim = {
     gitlab = {
