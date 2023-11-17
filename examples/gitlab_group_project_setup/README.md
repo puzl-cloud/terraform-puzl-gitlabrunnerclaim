@@ -1,4 +1,4 @@
-# Managing GitLab Resources and integration with puzl.cloud
+# Managing GitLab Resources and Integration with puzl.cloud
 
 This example provides a comprehensive setup for automating the creation and management of GitLab resources and integrating them with puzl.cloud services.
 
