@@ -41,7 +41,7 @@ resource "gitlab_project_access_token" "example_project_token" {
   scopes       = ["create_runner"]
 }
 
-# Set Up GitLab Pipelines Integration with Puzl Cloud Modules
+# Set up GitLab Pipelines Integration with Puzl modules
 module "integration" {
   source     = "puzl-cloud/gitlabpipelinesintegration/puzl"
 
@@ -50,7 +50,7 @@ module "integration" {
   gitlab_url = local.gitlab_url
 }
 
-# Set Up GitLab Group Access Token with Puzl Cloud Modules
+# Set up GitLab Group Access Token with Puzl modules
 module "gitlab_group_access_token" {
   source               = "puzl-cloud/gitlabaccesstoken/puzl"
 
@@ -60,7 +60,7 @@ module "gitlab_group_access_token" {
   token_type           = "puzl.cloud/gitlab-group-access-token"
 }
 
-# Set Up GitLab Project Access Token with Puzl Cloud Modules
+# Set up GitLab Project Access Token with Puzl modules
 module "gitlab_project_access_token" {
   source               = "puzl-cloud/gitlabaccesstoken/puzl"
 
