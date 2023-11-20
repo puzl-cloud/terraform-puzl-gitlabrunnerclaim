@@ -6,9 +6,10 @@ This example provides a comprehensive setup for automating the creation and mana
 
 ### Apply
 
-1. Update the `main.tf` file with your specific details, such as GitLab settings and your Puzl root namespace name.
-2. Set `KUBE_HOST`,`KUBE_TOKEN` and `TF_VAR_gitlab_access_token` enviroment varibale.
-3. Initialize the Terraform environment:
+1. Create credetials in your Puzl dashboard https://gitlab-pipelines.puzl.cloud/dashboard
+2. Update the `main.tf` file with your specific details, such as GitLab settings and your Puzl root namespace name.
+3. Set `KUBE_HOST`,`KUBE_TOKEN` and `TF_VAR_gitlab_access_token` enviroment varibale.
+4. Initialize the Terraform environment:
 
 ```bash
 terraform init
@@ -21,7 +22,7 @@ terraform plan
 terraform apply
 ```
 
-### Cleanup
+## Cleanup
 
 To remove the deployed resources, run:
 
