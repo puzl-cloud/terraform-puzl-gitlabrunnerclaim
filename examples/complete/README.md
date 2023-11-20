@@ -6,8 +6,8 @@ This example demonstrates how to use the GitLab Runner Claim Terraform module wi
 
 ### Apply
 
-1. Create credetial on https://gitlab-pipelines.puzl.cloud/dashboard
-2. Update the `main.tf` file with your specific details, such as the GitLab URL and desired namespace.
+1. Create credetials in your Puzl  https://gitlab-pipelines.puzl.cloud/dashboard
+2. Update the `main.tf` file with your specific details, such as GitLab settings and your Puzl root namespace name.
 3. Set `KUBE_HOST`,`KUBE_TOKEN` and `TF_VAR_gitlab_access_token` enviroment varibale.
 4. Initialize the Terraform environment:
 
