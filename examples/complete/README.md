@@ -1,6 +1,6 @@
-# Example Usage of GitLab Runner Claim Module
+# Example Usage of puzl.cloud module for GitLab Runner Claim
 
-This example demonstrates how to use the GitLab Runner Claim Terraform module with GitLab Pipelines Integration Module and Gitlab Access Token Module.
+This example demonstrates how to use Puzl's modules for GitLab runner orchestration utilizing GitLab access token management within the integration.
 
 ## Usage
 
