@@ -24,6 +24,7 @@ resource "kubernetes_manifest" "gitlabrunnerclaim" {
           dropContainerResourceLimits   = try(var.gitlab_runner_claim.pipelines.resources.dropContainerResourceLimits, true)
         }
         sharedMountPoints               = try(var.gitlab_runner_claim.pipelines.sharedMountPoints, ["/certs", "/var/run"])
+        sharedPersistentMountPoints     = try(var.gitlab_runner_claim.pipelines.sharedMountPoints, [])
       }
     }
   }

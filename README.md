@@ -2,9 +2,9 @@
 
 ## Overview
 
-This Terraform module is a way of requesting a GitLab runner within [Cloud Pipelines Service](https://gitlab-pipelines.puzl.cloud) by Puzl. 
+This Terraform module is a way of requesting a GitLab runner within [Cloud Pipelines Service](https://puzl.cloud/products/ci-runners-for-gitlab) by Puzl. 
 
-`GitLabRunnerClaim` resources can be created only in the Claim Namespace created by `GitLabPipelinesIntegration`, which might be used to provide isolation between GitLab runners of different organization units. Administrator (owner of Puzl account) always has full permissions on all `GitLabRunnerClaim` resources within the Puzl account. The detailed description of the fields used in this module can be found in the related [GitLab Runner Claim documentation](https://gitlab-pipelines.puzl.cloud/docs/api/custom-puzl-resources/gitlab-runner-claim/).
+`GitLabRunnerClaim` resources can be created only in the Claim Namespace created by `GitLabPipelinesIntegration`, which might be used to provide isolation between GitLab runners of different organization units. Administrator (owner of Puzl account) always has full permissions on all `GitLabRunnerClaim` resources within the Puzl account. The detailed description of the fields used in this module can be found in the related [GitLab Runner Claim documentation](https://docs.puzl.cloud/api/ci-runners-for-gitlab/custom-puzl-resources/gitlab-runner-claim).
 
 ## Features
 

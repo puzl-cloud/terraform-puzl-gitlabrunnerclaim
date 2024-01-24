@@ -18,6 +18,7 @@ variable "gitlab_runner_claim" {
         dropContainerResourceLimits   = bool
       }))
       sharedMountPoints               = optional(list(string))
+      sharedPersistentMountPoints     = optional(list(string))
     }))
   })
 
